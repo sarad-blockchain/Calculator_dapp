@@ -36,7 +36,7 @@ The result and transaction log update in the UI
 ## Project structure
 
 ```
-solidity-calculator/
+calculator-dapp/
 │
 ├── index.html                  # App shell — loads fonts, CSS, ethers.js CDN, main.js
 │
@@ -48,10 +48,9 @@ solidity-calculator/
 │   │   └── style.css           # All styles in one file (reset, tokens, layout, components)
 │   │
 │   └── js/
-│       ├── config.js           # CONTRACT_ADDRESS and NETWORK_ID (not committed — see .gitignore)
+│       ├── config.js           # CONTRACT_ADDRESS and NETWORK_ID — see note below
 │       ├── config.example.js   # Template for config.js — safe to commit
 │       ├── web3.js             # Blockchain layer: wallet connection, contract calls, event parsing
-│       ├── calculator.js       # Local simulation of the contract logic (reference / offline use)
 │       ├── log.js              # TransactionLog class — renders transaction cards in the UI
 │       └── main.js             # UI controller — DOM wiring, state management, call dispatch
 │
@@ -59,6 +58,8 @@ solidity-calculator/
 ├── DEPLOYMENT.md               # Step-by-step deployment guide
 └── README.md
 ```
+
+> **Note on `config.js`:** this file is committed intentionally — it contains only the public Sepolia contract address, which is visible on-chain anyway. In a production environment this would be handled via environment variables.
 
 ---
 
@@ -127,9 +128,8 @@ There is a single set of calculator buttons in the HTML. The JavaScript decides 
 |---|---|
 | `main.js` | DOM access, input state machine, call dispatch |
 | `web3.js` | MetaMask connection, transaction encoding/sending, event parsing |
-| `calculator.js` | Local JS simulation of the contract (offline reference) |
 | `log.js` | Renders transaction cards with events and Etherscan links |
-| `config.js` | Contract address and network ID (gitignored) |
+| `config.js` | Contract address and network ID |
 
 ### State model (`main.js`)
 
@@ -170,10 +170,8 @@ state = {
 ### Run locally
 
 ```bash
-git clone https://github.com/your-username/solidity-calculator.git
-cd solidity-calculator
-cp src/js/config.example.js src/js/config.js
-# Open src/js/config.js and set CONTRACT_ADDRESS
+git clone https://github.com/your-username/calculator-dapp.git
+cd calculator-dapp
 ```
 
 Then open `index.html` in a browser — no build step or local server required.
