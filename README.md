@@ -1,4 +1,4 @@
-# Calculator.sol
+# Calculator Dapp
 
 A smart contract calculator deployed on the Ethereum Sepolia testnet, with a matching browser frontend that connects to it via MetaMask and ethers.js.
 
