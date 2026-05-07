@@ -3,7 +3,7 @@
  *
  * Runtime configuration for the Calculator.sol frontend.
  *
- * ⚠️  This file is listed in .gitignore and must NOT be committed to version
+ *     This file is listed in .gitignore and must NOT be committed to version
  *     control — it contains the live contract address which, while public on
  *     the blockchain, should be kept out of source history to avoid confusion
  *     when the contract is redeployed.
