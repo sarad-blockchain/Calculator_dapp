@@ -4,7 +4,7 @@ A smart contract calculator deployed on the Ethereum Sepolia testnet, with a mat
 
 Every arithmetic operation is executed as a real blockchain transaction. Results are read from the emitted Solidity events, and each transaction links directly to Sepolia Etherscan.
 
-**[→ Live demo](https://your-vercel-url.vercel.app)** &nbsp;·&nbsp; **[→ Contract on Etherscan](https://sepolia.etherscan.io/address/0x890A839Fde6E9B3e887b3dF8eC1A8cE23AAbB313)**
+**[→ Live demo](https://calculator-dapp-delta.vercel.app/)** &nbsp;·&nbsp; **[→ Contract on Etherscan](https://sepolia.etherscan.io/address/0x890A839Fde6E9B3e887b3dF8eC1A8cE23AAbB313)**
 
 ---
 
