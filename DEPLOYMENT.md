@@ -1,169 +1,81 @@
-# 🚀 Calculator.sol - Smart Contract Deployment Guide
+# Deployment Guide
 
-## ✅ Frontend Ready!
+This guide covers two independent steps:
 
-El frontend ya está completamente listo:
-- ✓ Calculadora unificada (sin cambios de modo)
-- ✓ Acepta operaciones simples y complejas
-- ✓ Botón "Connect Wallet" para MetaMask
-- ✓ Integrado con Ethers.js
-- ✓ Listo para conectar con el contrato
+1. [Deploy the smart contract](#1-deploy-the-smart-contract) to the Sepolia testnet using Remix IDE
+2. [Deploy the frontend](#2-deploy-the-frontend) to Vercel
 
 ---
 
-## 📋 Próximos Pasos: Deployar el Contrato
+## Prerequisites
 
-### 1. **Instalar Dependencias**
+- [MetaMask](https://metamask.io) installed in your browser
+- Sepolia ETH in your wallet — get some for free from the [Google Cloud Faucet](https://cloud.google.com/application/web3/faucet/ethereum/sepolia)
 
-```bash
-npm install hardhat @openzeppelin/contracts
-npx hardhat
-```
+---
 
-Selecciona "Create a JavaScript project"
+## 1. Deploy the smart contract
 
-### 2. **Crear la carpeta del contrato**
+### 1.1 Open Remix IDE
 
-```bash
-mkdir contracts
-mv Calculator.sol contracts/
-```
+Go to [remix.ethereum.org](https://remix.ethereum.org).
 
-Copia `contracts/Calculator.sol` a la carpeta del proyecto Hardhat.
+### 1.2 Create the contract file
 
-### 3. **Compilar el contrato**
+In the File Explorer panel, create a new file called `Calculator.sol` and paste in the contents of `contracts/Calculator.sol` from this repo.
 
-```bash
-npx hardhat compile
-```
+### 1.3 Compile
 
-Esto generará el ABI y bytecode.
+Go to the **Solidity Compiler** tab (the `<S>` icon on the left sidebar).
 
-### 4. **Deployar en Sepolia Testnet**
+- Set the compiler version to `0.8.34` (or any `^0.8.34` compatible version)
+- Click **Compile Calculator.sol**
 
-#### a) Crear archivo `.env`:
+If compilation succeeds you will see a green checkmark.
 
-```
-SEPOLIA_RPC_URL=https://sepolia.infura.io/v3/YOUR_INFURA_KEY
-PRIVATE_KEY=your_metamask_private_key
-```
+### 1.4 Deploy to Sepolia
 
-⚠️ **Cómo obtenerlos:**
-- **INFURA_KEY**: Regístrate gratis en [Infura.io](https://www.infura.io/)
-- **PRIVATE_KEY**: En MetaMask → Settings → Security & Privacy → Export Private Key
+Go to the **Deploy & Run Transactions** tab (the Ethereum icon).
 
-#### b) Crear script de deployment (`scripts/deploy.js`):
+- Under **Environment**, select **Injected Provider - MetaMask**
+- MetaMask will ask you to connect — approve it
+- Make sure the selected network in MetaMask is **Sepolia Testnet**. If not, switch to it before continuing
+- Under **Contract**, select `Calculator`
+- Click **Deploy** and confirm the transaction in MetaMask
 
-```javascript
-const hre = require("hardhat");
+Once the transaction is mined, the contract address will appear under **Deployed Contracts** at the bottom of the panel.
 
-async function main() {
-  const Calculator = await hre.ethers.getContractFactory("Calculator");
-  const calculator = await Calculator.deploy();
-  await calculator.waitForDeployment();
-  
-  const address = await calculator.getAddress();
-  console.log("✓ Calculator deployed to:", address);
-}
+### 1.5 Copy the contract address
 
-main()
-  .then(() => process.exit(0))
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
-```
+Click the copy icon next to the deployed contract address. You will need it in the next step.
 
-#### c) Configurar Hardhat (`hardhat.config.js`):
+You can verify the deployment on [Sepolia Etherscan](https://sepolia.etherscan.io) by pasting the address in the search bar.
 
-```javascript
-require("dotenv").config();
-require("@nomicfoundation/hardhat-toolbox");
+---
 
-module.exports = {
-  solidity: "0.8.34",
-  networks: {
-    sepolia: {
-      url: process.env.SEPOLIA_RPC_URL,
-      accounts: [process.env.PRIVATE_KEY]
-    }
-  }
-};
-```
+## 2. Deploy the frontend
 
-#### d) Deployar:
+### 2.1 Set the contract address
 
-```bash
-npx hardhat run scripts/deploy.js --network sepolia
-```
+Open `src/js/config.js` and replace the value of `CONTRACT_ADDRESS` with the address you copied in step 1.5:
 
-### 5. **Configurar `src/js/config.js` (¡IMPORTANTE!)**
-
-**Este archivo contiene información sensible y NO debe subirse a GitHub.**
-
-```bash
-# Copia el archivo de ejemplo
-cp src/js/config.example.js src/js/config.js
-```
-
-Edita `src/js/config.js` con tus valores reales:
-
-```javascript
+```js
 export const CONFIG = {
-  SEPOLIA_RPC: 'https://sepolia.infura.io/v3/TU_INFURA_KEY_AQUI',
-  CONTRACT_ADDRESS: '0xTU_DIRECCION_DEL_CONTRATO_AQUI',
+  CONTRACT_ADDRESS: '0xYourContractAddressHere',
   NETWORK_ID: 11155111,
 };
 ```
 
-**🔒 SEGURIDAD:**
-- `config.js` está en `.gitignore` - no se subirá a GitHub
-- Solo `config.example.js` se sube (como plantilla)
-- Cada usuario debe crear su propio `config.js` localmente
+### 2.2 Push to GitHub
 
-### 6. **Obtener ETH de Testnet (Gratis)**
+Commit and push your changes to a GitHub repository.
 
-Ve a: [Sepolia Faucet](https://sepoliafaucet.com/)
-- Pega tu dirección MetaMask
-- Recibirás 0.5 ETH gratis para hacer transacciones
+### 2.3 Deploy on Vercel
+
+Go to [vercel.com](https://vercel.com), sign in with your GitHub account, import your repository and click **Deploy**. Vercel detects it as a static site automatically — no build configuration needed.
 
 ---
 
-## 🎯 Usar la Calculadora
+## Redeploying the contract
 
-1. Abre `index.html` con un servidor local (Live Server)
-2. Haz clic en "🔗 Connect Wallet"
-3. Aprueba la conexión en MetaMask
-4. ¡Usa la calculadora! Cada operación es una transacción en Sepolia
-
----
-
-## 📚 Recursos
-
-- [Sepolia Faucet](https://sepoliafaucet.com/) - Obtener ETH gratis
-- [Infura.io](https://www.infura.io/) - RPC gratis
-- [MetaMask](https://metamask.io/) - Wallet
-- [Ethers.js Docs](https://docs.ethers.org/v6/)
-- [Hardhat Docs](https://hardhat.org/getting-started)
-
----
-
-## ❓ FAQ
-
-**P: ¿Cómo sé si el contrato está deployado?**
-R: Verifica en [Sepolia Etherscan](https://sepolia.etherscan.io/) con la dirección del contrato
-
-**P: ¿Qué pasa si cambio de red en MetaMask?**
-R: El navegador te avisa. Asegúrate de estar en Sepolia.
-
-**P: ¿Las operaciones cuestan gas?**
-R: Sí, pero en Sepolia testnet es gratis (no tiene valor real).
-
----
-
-## ✨ Todo listo para GitHub
-
-Después de deployar:
-1. Actualiza `web3.js` con la dirección
-2. Sube a GitHub
-3. ¡Comparte tu calculadora blockchain! 🚀
+If you redeploy the contract (e.g. after making changes to `Calculator.sol`), a new address will be generated. Update `CONTRACT_ADDRESS` in `config.js` and push again — Vercel will redeploy automatically.
