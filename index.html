@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculator.sol</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+  <link rel="stylesheet" href="src/css/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.1/ethers.umd.min.js"></script>
+</head>
+<body>
+  <div class="app">
+    <div class="bg-orb bg-orb--purple" aria-hidden="true"></div>
+    <div class="bg-orb bg-orb--cyan"   aria-hidden="true"></div>
+    <div class="bg-grid"               aria-hidden="true"></div>
+
+    <nav class="nav">
+      <span class="nav-logo">Calculator.sol</span>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button id="js-wallet-btn" class="wallet-btn">Connect Wallet</button>
+        <div class="nav-badge">
+          <span class="nav-badge__dot" id="js-status-dot"></span>
+          <span class="nav-badge__text" id="js-status-text">Sepolia · Disconnected</span>
+        </div>
+      </div>
+    </nav>
+
+    <main class="main">
+
+      <!-- CALCULATOR -->
+      <section class="col col--calc">
+        <div class="calc-card">
+
+          <!-- Screen -->
+          <div class="screen">
+            <div class="screen__expr"   id="js-expr"></div>
+            <div class="screen__result" id="js-display">0</div>
+          </div>
+
+          <!-- Expression bar: shows tokens while building multi-step expressions -->
+          <div class="expr-bar" id="js-expr-bar" hidden>
+            <span class="expr-bar__placeholder" id="js-expr-placeholder">Add numbers and operators…</span>
+            <span class="expr-bar__tokens"       id="js-expr-tokens"></span>
+          </div>
+
+          <!-- ONE grid of buttons -->
+          <div class="btn-grid">
+            <button class="calc-btn calc-btn--action" data-action="clear">AC</button>
+            <button class="calc-btn calc-btn--action" data-action="sign">+/−</button>
+            <button class="calc-btn calc-btn--action" data-action="backspace">⌫</button>
+            <button class="calc-btn calc-btn--op"     data-op="Division">÷</button>
+
+            <button class="calc-btn" data-num="7">7</button>
+            <button class="calc-btn" data-num="8">8</button>
+            <button class="calc-btn" data-num="9">9</button>
+            <button class="calc-btn calc-btn--op" data-op="Multiplier">×</button>
+
+            <button class="calc-btn" data-num="4">4</button>
+            <button class="calc-btn" data-num="5">5</button>
+            <button class="calc-btn" data-num="6">6</button>
+            <button class="calc-btn calc-btn--op" data-op="Subtraction">−</button>
+
+            <button class="calc-btn" data-num="1">1</button>
+            <button class="calc-btn" data-num="2">2</button>
+            <button class="calc-btn" data-num="3">3</button>
+            <button class="calc-btn calc-btn--op" data-op="Addition">+</button>
+
+            <button class="calc-btn calc-btn--zero" data-num="0">0</button>
+            <button class="calc-btn" data-action="dot">.</button>
+            <button class="calc-btn calc-btn--equals" data-action="equals">=</button>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- TRANSACTION LOG -->
+      <section class="col col--log">
+        <div class="log-header">
+          <span class="log-title">Transaction Log</span>
+          <button class="log-clear" id="js-clear-log">Clear</button>
+        </div>
+        <div class="log-list" id="js-log-list">
+          <div class="log-empty" id="js-log-empty">
+            No transactions yet.<br/>Connect wallet and calculate.
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="src/js/main.js" type="module"></script>
+</body>
+</html>
